@@ -53,17 +53,39 @@ This project is divided into two main parts:
    DB_PASSWORD= your_db_user_pass
    DB_DATABASE=online_library
    SESSION_SECRET= generate_with_node
+
    ```
+
+   **Explanation**: 
+   - The `SESSION_SECRET` is used to sign and verify session cookies to ensure security. You can generate a strong, random value for this by using Node.js in the terminal:
+     ```bash
+     node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+     ```
+     Copy the output and paste it as the value for `SESSION_SECRET` in the `.env` file.
+
+   **MySQL Database Setup**
+
+   Before running the backend, you need to create the MySQL database and user. Run the following commands in your MySQL shell:
+
+   ```sql
+   CREATE DATABASE online_library;
+   CREATE USER 'user'@'localhost' IDENTIFIED BY 'pass@123';
+   GRANT ALL PRIVILEGES ON online_library.* TO 'user'@'localhost';
+   FLUSH PRIVILEGES;
+   ```
+
+   **Note**: Replace `'user'@'localhost'` with your actual MySQL database username and password.
 
    **Running the Backend Server**
 
    ```bash
    npm run start:dev
+
    ```
 
    The backend server will run by default on **[http://localhost:3001](http://localhost:3001)**.
 
-3. **Frontend Setup (Next.js)**
+3. **Frontend Setup (React)**
 
    ```bash
    cd ../m1-site
@@ -208,10 +230,8 @@ Allows users to add reviews to books.
 ## Features Implemented So Far
 
 - User registration, login, and profile management.
-- 
 
 ## Upcoming Features
-
 
 - Improved authentication and user role management.
 - Pagination for books and authors listing.
