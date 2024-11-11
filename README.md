@@ -53,7 +53,6 @@ This project is divided into two main parts:
    DB_PASSWORD= your_db_user_pass
    DB_DATABASE=online_library
    SESSION_SECRET= generate_with_node
-
    ```
 
    **Explanation**: 
@@ -80,7 +79,6 @@ This project is divided into two main parts:
 
    ```bash
    npm run start:dev
-
    ```
 
    The backend server will run by default on **[http://localhost:3001](http://localhost:3001)**.
@@ -239,6 +237,59 @@ Allows users to add reviews to books.
 - Book Management: CRUD operations for books.
 - Review Management: Allow users to add reviews to books.
 - Advanced search functionality for books and authors.
+
+## Branching Strategy
+
+To avoid any conflicts and to keep the `main` branch stable, follow the instructions below to create your own branches for development:
+
+### Create a New Branch
+
+1. First, make sure you’re on the `main` branch:
+
+   ```bash
+   git checkout main
+   ```
+
+2. Create a new branch where you will develop your feature or fix:
+   
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+### Make Your Changes and Commit Them
+
+Add all your changes:
+
+```bash
+   git add files.tsx ,README.md etc etc
+```
+
+Commit your changes with a meaningful message:
+
+```bash
+   git commit -m "Add your feature description here"
+```
+
+### Push Your Branch to Remote Repository
+
+Push your branch to the remote repository:
+
+```bash
+   git push origin feature/your-feature-name
+```
+
+### Create a Pull Request (PR)
+
+Once your branch is pushed to GitHub, you need to create a Pull Request (PR) to request that your changes be merged into the `main` branch:
+
+1. Go to the [GitHub page of the repository](https://github.com/dev-sheikh-ali/online_library).
+2. Click on **Compare & pull request** for your recently pushed branch.
+3. Add a title and description for your Pull Request.
+4. Click **Create pull request** to submit your PR.
+
+### What Is a Pull Request?
+
+A **Pull Request** (PR) is a request to merge your changes into the `main` branch. It allows your teammates to review your code, suggest changes, or approve it. This ensures that all code added to the main project is thoroughly reviewed.
 
 Feel free to contribute to the project by creating pull requests or submitting issues on GitHub.
 
