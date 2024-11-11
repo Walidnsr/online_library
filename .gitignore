@@ -1,0 +1,9 @@
+# Dependency directories and build outputs
+node_modules/
+test/
+dist/
+.next/
+
+# Environment variables
+*.env
+*.env.local
