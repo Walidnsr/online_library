@@ -1,4 +1,6 @@
-import { Controller, Post, Body, Get, Req, Res, Put } from '@nestjs/common';
+// src/modules/user_management/user_management.controller.ts
+
+import { Controller, Post, Body, Get, Req, Res, Put, Param } from '@nestjs/common';
 import { UserManagementService } from './user_management.service';
 import { Request, Response } from 'express';
 
@@ -7,8 +9,10 @@ export class UserManagementController {
   constructor(private readonly userService: UserManagementService) {}
 
   @Post('signup')
-  async signup(@Body() body: { email: string; password: string; firstName: string; lastName: string }) {
-    return this.userService.signup(body.email, body.password, body.firstName, body.lastName);
+  async signup(
+    @Body() body: { email: string; password: string; firstName: string; lastName: string; dateOfBirth?: Date }
+  ) {
+    return this.userService.signup(body.email, body.password, body.firstName, body.lastName, body.dateOfBirth);
   }
 
   @Post('login')
@@ -18,6 +22,7 @@ export class UserManagementController {
       return res.status(401).send({ message: 'Invalid credentials' });
     }
     req.session.userId = user.id;
+    await this.userService.updateLastLogin(user.id);
     res.send({ message: 'Logged in successfully' });
   }
 
@@ -32,12 +37,28 @@ export class UserManagementController {
   @Put('profile')
   async updateProfile(
     @Req() req: Request,
-    @Body() userDetails: { firstName: string; lastName: string },
+    @Body() userDetails: Partial<{ firstName: string; lastName: string; phoneNumber: string; address: string; bio: string; photoUrl: string }>
   ) {
     if (!req.session.userId) {
       return { message: 'Unauthorized' };
     }
     return this.userService.updateProfile(req.session.userId, userDetails);
+  }
+
+  @Post('favorite-book/:bookId')
+  async addFavoriteBook(@Req() req: Request, @Param('bookId') bookId: number) {
+    if (!req.session.userId) {
+      return { message: 'Unauthorized' };
+    }
+    return this.userService.addFavoriteBook(req.session.userId, bookId);
+  }
+
+  @Post('unfavorite-book/:bookId')
+  async removeFavoriteBook(@Req() req: Request, @Param('bookId') bookId: number) {
+    if (!req.session.userId) {
+      return { message: 'Unauthorized' };
+    }
+    return this.userService.removeFavoriteBook(req.session.userId, bookId);
   }
 
   @Post('logout')
