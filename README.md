@@ -261,7 +261,7 @@ To avoid any conflicts and to keep the `main` branch stable, follow the instruct
 Add all your changes:
 
 ```bash
-   git add files.tsx ,README.md etc etc
+   git add files.tsx ,README.md , exmaple.js , another exmaple etc etc 
 ```
 
 Commit your changes with a meaningful message:
