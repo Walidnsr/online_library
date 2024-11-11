@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UserManagementModule } from './modules/user_management/user_management.module';
+import { BookManagementModule } from './modules/book_management/book_management.module';
+import { AuthorManagementModule } from './modules/author_management/author_management.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { UserManagementModule } from './modules/user_management/user_management.
       logging: true,
     }),
     UserManagementModule,
+    BookManagementModule,
+    AuthorManagementModule,
   ],
 })
 export class AppModule {}

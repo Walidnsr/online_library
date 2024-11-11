@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { config } from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
-import * as session from 'express-session';
+import * as session from 'express-session'; // Corrected import
 
 config();
 

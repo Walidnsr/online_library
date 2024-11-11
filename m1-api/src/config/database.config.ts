@@ -1,13 +1,18 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
+import { DataSource } from 'typeorm';
+import { User } from '../modules/user_management/entities/user.entity';
+import { Book } from '../modules/book_management/entities/book.entity';
+import { AuthorProfile } from '../modules/author_management/entities/author_profile.entity';
+// Add any other entities here
 
-export const typeOrmConfig = (configService: ConfigService): TypeOrmModuleOptions => ({
+export const AppDataSource = new DataSource({
   type: 'mysql',
-  host: configService.get<string>('DB_HOST'),
-  port: configService.get<number>('DB_PORT'),
-  username: configService.get<string>('DB_USERNAME'),
-  password: configService.get<string>('DB_PASSWORD'),
-  database: configService.get<string>('DB_DATABASE'),
-  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  synchronize: true, // Set to false in production
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT, 10),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  synchronize: false,
+  logging: true,
+  entities: [User, Book, AuthorProfile],
+  migrations: ['src/migrations/*.ts'],
 });
