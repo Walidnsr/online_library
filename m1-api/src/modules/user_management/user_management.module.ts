@@ -1,6 +1,6 @@
 // src/modules/user_management/user_management.module.ts
 
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserManagementService } from './user_management.service';
 import { UserManagementController } from './user_management.controller';
@@ -16,10 +16,10 @@ import { LocalStrategy } from './strategies/local.strategy';
   imports: [
     TypeOrmModule.forFeature([User, Book, AuthorProfile]),
     PassportModule.register({ defaultStrategy: 'local' }),
-    AuthorManagementModule, // Add this to resolve AuthorProfileRepository dependency
+    forwardRef(() => AuthorManagementModule), // Use forwardRef to handle circular dependency
   ],
   controllers: [UserManagementController, AdminManagementController],
   providers: [UserManagementService, LocalStrategy],
-  exports: [UserManagementService],
+  exports: [UserManagementService, TypeOrmModule], // Export UserManagementService and TypeOrmModule
 })
 export class UserManagementModule {}

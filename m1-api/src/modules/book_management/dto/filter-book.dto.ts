@@ -12,4 +12,12 @@ export class FilterBookDto {
   @IsOptional()
   @IsDate()
   publicationDate?: Date;
+
+  @IsOptional()
+  @IsString()
+  language?: string;
+
+  @IsOptional()
+  @IsString()
+  format?: string;
 }

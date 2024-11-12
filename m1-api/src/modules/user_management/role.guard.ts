@@ -1,6 +1,6 @@
 // src/modules/user_management/role.guard.ts
 
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, ForbiddenException, Inject, forwardRef } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { UserManagementService } from './user_management.service';
@@ -10,6 +10,7 @@ import { UserRole } from './entities/user.entity';
 export class RoleGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
+    @Inject(forwardRef(() => UserManagementService))
     private readonly userService: UserManagementService,
   ) {}
 

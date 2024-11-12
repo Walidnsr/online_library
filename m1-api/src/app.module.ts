@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserManagementModule } from './modules/user_management/user_management.module';
 import { BookManagementModule } from './modules/book_management/book_management.module';
 import { AuthorManagementModule } from './modules/author_management/author_management.module';
+import { ReviewManagementModule } from './modules/review_managemnt/review_management.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AuthorManagementModule } from './modules/author_management/author_manag
     UserManagementModule,
     BookManagementModule,
     AuthorManagementModule,
+    ReviewManagementModule,
   ],
 })
 export class AppModule {}

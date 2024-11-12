@@ -1,5 +1,3 @@
-// src/modules/author_management/entities/author_profile.entity.ts
-
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { User } from '../../user_management/entities/user.entity';
 
@@ -17,6 +15,12 @@ export class AuthorProfile {
 
   @Column({ nullable: true })
   photoUrl: string;
+
+  @Column({ default: 0 })
+  numberOfBooks: number;
+
+  @Column({ type: 'float', nullable: true })
+  averageBookRating: number;
 
   // Add any other author-specific fields here
 }

@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Book } from '../../book_management/entities/book.entity';
 import { AuthorProfile } from '../../author_management/entities/author_profile.entity';
+import { Review } from '../../review_managemnt/entities/review.entity';
 
 export enum UserRole {
   REGULAR = 'regular',
@@ -69,6 +70,9 @@ export class User {
 
   @OneToMany(() => Book, (book) => book.author, { nullable: true })
   booksAuthored: Book[];
+
+  @OneToMany(() => Review, (review) => review.user, { nullable: true })
+  reviews?: Review[];
 
   @OneToOne(() => AuthorProfile, (authorProfile) => authorProfile.user)
   authorProfile: AuthorProfile;

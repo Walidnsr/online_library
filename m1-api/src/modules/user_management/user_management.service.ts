@@ -1,12 +1,13 @@
 // src/modules/user_management/user_management.service.ts
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole } from './entities/user.entity';
 import { Book } from '../book_management/entities/book.entity';
 import * as bcrypt from 'bcrypt';
 import { AuthorProfile } from '../author_management/entities/author_profile.entity';
+import { AuthorManagementService } from '../author_management/author_management.service'; // Import AuthorManagementService
 
 @Injectable()
 export class UserManagementService {
@@ -14,6 +15,7 @@ export class UserManagementService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Book) private readonly bookRepository: Repository<Book>,
     @InjectRepository(AuthorProfile) private readonly authorProfileRepository: Repository<AuthorProfile>,
+    @Inject(forwardRef(() => AuthorManagementService)) private readonly authorService: AuthorManagementService, // Use forwardRef to inject AuthorManagementService
   ) {}
 
   async signup(email: string, password: string, firstName: string, lastName: string, dateOfBirth?: Date): Promise<User> {
@@ -31,7 +33,7 @@ export class UserManagementService {
   }
 
   async findById(userId: number): Promise<User> {
-    return this.userRepository.findOne({ where: { id: userId }, relations: ['favoriteBooks', 'booksPurchased', 'booksAuthored'] });
+    return this.userRepository.findOne({ where: { id: userId }, relations: ['favoriteBooks', 'booksPurchased', 'booksAuthored', 'authorProfile'] });
   }
 
   async updateProfile(userId: number, userDetails: Partial<User>): Promise<User> {
@@ -71,7 +73,7 @@ export class UserManagementService {
 
   // For admin to find all users
   async findAllUsers(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['favoriteBooks', 'booksPurchased', 'booksAuthored'] });
+    return this.userRepository.find({ relations: ['favoriteBooks', 'booksPurchased', 'booksAuthored', 'authorProfile'] });
   }
 
   // For admin to delete a user

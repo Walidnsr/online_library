@@ -1,6 +1,4 @@
-// src/modules/book_management/dto/create-book.dto.ts
-
-import { IsNotEmpty, IsString, IsNumber, IsDate } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsDate, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateBookDto {
@@ -18,6 +16,38 @@ export class CreateBookDto {
   price!: number;
 
   @IsNotEmpty()
+  @IsString()
+  genre!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  language!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  summary!: string;
+
+  @IsOptional()
+  @IsString()
+  coverImageUrl?: string;
+
+  @IsNotEmpty()
   @IsNumber()
-  authorId!: number; // This field will now be used to fetch the User entity that is the author
+  pageCount!: number;
+
+  @IsNotEmpty()
+  @IsString()
+  format!: string;
+
+  @IsOptional()
+  @IsNumber()
+  availableCopies?: number;
+
+  @IsOptional()
+  @IsString()
+  publisher?: string;
+
+  @IsOptional()
+  @IsString({ each: true })
+  tags?: string[];
 }
