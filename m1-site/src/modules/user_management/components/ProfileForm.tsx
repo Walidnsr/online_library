@@ -45,7 +45,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onClose }) => {
     try {
       await updateProfile(profileData);
       alert('Profile updated successfully');
-      onClose(); // Close modal after successful update
+      onClose();
     } catch (err: any) {
       setError(err.message || 'An error occurred while updating the profile');
     } finally {
@@ -114,19 +114,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onClose }) => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-2 rounded-md ${
-            loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-          } text-white`}
+          className={`w-full py-2 rounded-md ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
         >
           {loading ? 'Updating...' : 'Update Profile'}
         </button>
       </form>
       {error && <p className="text-red-600 mt-2">{error}</p>}
-      <button
-        onClick={onClose}
-        className="text-sm text-blue-600 mt-4 underline"
-        disabled={loading}
-      >
+      <button onClick={onClose} className="text-sm text-blue-600 mt-4 underline" disabled={loading}>
         Close
       </button>
     </div>

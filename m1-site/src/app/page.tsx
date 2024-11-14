@@ -1,6 +1,9 @@
+// src/app/page.tsx
+
 "use client";
 
 import Navbar from '../components/Navbar';
+import Link from 'next/link';
 
 const HomePage = () => {
   return (
@@ -8,7 +11,14 @@ const HomePage = () => {
       <Navbar />
       <header className="bg-blue-50 py-16 text-center">
         <h1 className="text-4xl font-bold text-blue-700">Welcome to Online Library</h1>
-        <p className="text-lg text-gray-700 mt-4">Millions of books available through Controlled Digital Lending</p>
+        <p className="text-lg text-gray-700 mt-4">
+          Millions of books available through Controlled Digital Lending
+        </p>
+        <Link href="/books">
+          <button className="bg-blue-600 text-white mt-6 px-6 py-3 rounded-md hover:bg-blue-700">
+            Browse Books
+          </button>
+        </Link>
       </header>
 
       <section className="container mx-auto px-6 py-10">
@@ -27,6 +37,7 @@ const HomePage = () => {
               </button>
             </div>
           </div>
+          {/* Add more book cards dynamically here */}
         </div>
       </section>
     </div>

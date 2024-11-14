@@ -1,30 +1,35 @@
+// src/components/Navbar.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Modal from 'components/Modal'; // Updated to use absolute path
-import LoginForm from 'modules/user_management/components/LoginForm'; // Updated to use absolute path
-import SignupForm from 'modules/user_management/components/SignupForm'; // Updated to use absolute path
-import ProfileForm from 'modules/user_management/components/ProfileForm'; // Updated to use absolute path
-import { FaUserCircle } from 'react-icons/fa'; // Import profile icon
+import Modal from 'components/Modal';
+import LoginForm from 'modules/user_management/components/LoginForm';
+import SignupForm from 'modules/user_management/components/SignupForm';
+import ProfileForm from 'modules/user_management/components/ProfileForm';
+import { FaUserCircle } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
-  // useEffect to read from localStorage after the component has mounted
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const loggedIn = localStorage.getItem('userLoggedIn') === 'true';
+      const role = localStorage.getItem('userRole');
       setIsLoggedIn(loggedIn);
+      setUserRole(role);
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('userLoggedIn');
+    localStorage.removeItem('userRole');
     setIsLoggedIn(false);
+    setUserRole(null);
   };
 
   return (
@@ -34,22 +39,22 @@ const Navbar = () => {
           Online Library
         </Link>
         <div className="ml-10 hidden md:flex">
-          <Link href="#" className="mx-4 text-gray-600 hover:text-blue-700">
+          <Link href="/books" className="mx-4 text-gray-600 hover:text-blue-700">
             My Books
           </Link>
-          <Link href="#" className="mx-4 text-gray-600 hover:text-blue-700">
-            Browse
-          </Link>
+          {userRole === 'admin' && (
+            <Link href="/admin/dashboard" className="mx-4 text-gray-600 hover:text-blue-700">
+              Admin Dashboard
+            </Link>
+          )}
+          {userRole === 'author' && (
+            <Link href="/author/dashboard" className="mx-4 text-gray-600 hover:text-blue-700">
+              Author Dashboard
+            </Link>
+          )}
         </div>
       </div>
       <div className="flex items-center space-x-4">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search"
-            className="border rounded-md p-2 pl-8 pr-4 focus:outline-none focus:border-blue-500"
-          />
-        </div>
         {isLoggedIn ? (
           <>
             <button

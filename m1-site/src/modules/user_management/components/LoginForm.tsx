@@ -18,21 +18,23 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null); // Clear previous error
+    setError(null);
     try {
-      // Make login API call
-      await login(email, password);
+      const user = await login(email, password);
       
-      // Save login state to localStorage
       localStorage.setItem('userLoggedIn', 'true');
+      localStorage.setItem('userRole', user.role);
 
-      // Close modal after successful login
       onClose();
-      
-      // Redirect to home page
-      router.push('/');
+
+      if (user.role === 'admin') {
+        router.push('/admin/dashboard');
+      } else if (user.role === 'author') {
+        router.push('/author/dashboard');
+      } else {
+        router.push('/');
+      }
     } catch (err: any) {
-      // Set error message based on the response from the backend
       setError(err.message || 'Something went wrong during login');
     } finally {
       setLoading(false);
@@ -50,7 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
           onChange={(e) => setEmail(e.target.value)}
           required
           className="w-full border rounded-md p-2 mb-2"
-          disabled={loading} // Disable input during loading
+          disabled={loading}
         />
         <input
           type="password"
@@ -59,28 +61,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
           className="w-full border rounded-md p-2 mb-2"
-          disabled={loading} // Disable input during loading
+          disabled={loading}
         />
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-2 rounded-md ${
-            loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-          } text-white`}
+          className={`w-full py-2 rounded-md ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
-      {error && (
-        <p className="text-red-600 mt-2">
-          {error}
-        </p>
-      )}
-      <button
-        onClick={onClose}
-        className="text-sm text-blue-600 mt-4 underline"
-        disabled={loading} // Disable close button during loading
-      >
+      {error && <p className="text-red-600 mt-2">{error}</p>}
+      <button onClick={onClose} className="text-sm text-blue-600 mt-4 underline" disabled={loading}>
         Close
       </button>
     </div>
