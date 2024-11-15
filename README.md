@@ -12,14 +12,14 @@
 <p align="center">
   ADMIN
 </p>
-<kbd><img src="./images/admin.png" /></kbd>
+<kbd><img src="./screenshots/admin.png" /></kbd>
 </td> 
 <td width="50%">
 <br>
 <p align="center">
   CLIENT
 </p>
-<img src="./images/drive.png">  
+<img src="./screenshots/clientside.png">  
 </td>
 </table>
 
