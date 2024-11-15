@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { Review } from './entities/review.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
-import { Book } from '../book_management/entities/book.entity';  // Corrected path
-import { User } from '../user_management/entities/user.entity'; // Corrected path
+import { Book } from '../book_management/entities/book.entity';  
+import { User } from '../user_management/entities/user.entity'; 
 
 @Injectable()
 export class ReviewManagementService {
@@ -60,5 +60,10 @@ export class ReviewManagementService {
 
   async getReviewsByBook(bookId: number): Promise<Review[]> {
     return this.reviewRepository.find({ where: { book: { id: bookId } }, relations: ['user'] });
+  }
+
+  // New method to get all reviews
+  async getAllReviews(): Promise<Review[]> {
+    return this.reviewRepository.find({ relations: ['book', 'user'] });
   }
 }

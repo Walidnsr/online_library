@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -40,7 +39,13 @@ const Navbar = () => {
         </Link>
         <div className="ml-10 hidden md:flex">
           <Link href="/books" className="mx-4 text-gray-600 hover:text-blue-700">
-            My Books
+            Books
+          </Link>
+          <Link href="/authors" className="mx-4 text-gray-600 hover:text-blue-700">
+            Authors
+          </Link>
+          <Link href="/reviews" className="mx-4 text-gray-600 hover:text-blue-700">
+            Reviews
           </Link>
           {userRole === 'admin' && (
             <Link href="/admin/dashboard" className="mx-4 text-gray-600 hover:text-blue-700">

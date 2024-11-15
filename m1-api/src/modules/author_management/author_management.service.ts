@@ -1,4 +1,5 @@
 // src/modules/author_management/author_management.service.ts
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -41,16 +42,7 @@ export class AuthorManagementService {
     return this.authorProfileRepository.save(authorProfile);
   }
 
-  // Additional method to update number of books or average rating
-  async updateAuthorMetrics(userId: number, bookCount: number, averageRating: number): Promise<AuthorProfile> {
-    const authorProfile = await this.authorProfileRepository.findOne({ where: { user: { id: userId } } });
-    if (!authorProfile) {
-      throw new Error('Author profile not found');
-    }
-
-    authorProfile.numberOfBooks = bookCount;
-    authorProfile.averageBookRating = averageRating;
-
-    return this.authorProfileRepository.save(authorProfile);
+  async getAllAuthors(): Promise<AuthorProfile[]> {
+    return this.authorProfileRepository.find({ relations: ['user'] });
   }
 }

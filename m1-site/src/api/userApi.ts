@@ -26,13 +26,7 @@ export const signup = async (
   try {
     const response = await axios.post(
       `${BASE_URL}/signup`,
-      {
-        email,
-        password,
-        firstName,
-        lastName,
-        dateOfBirth,
-      },
+      { email, password, firstName, lastName, dateOfBirth },
       { withCredentials: true }
     );
     console.log('Signup response:', response);
@@ -54,10 +48,7 @@ export const login = async (email: string, password: string) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/login`,
-      {
-        email,
-        password,
-      },
+      { email, password },
       { withCredentials: true }
     );
 

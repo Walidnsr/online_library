@@ -1,14 +1,12 @@
-// src/modules/books/components/FavoriteBookButton.tsx
-
 "use client";
 
 import { useState } from 'react';
-import { addFavoriteBook, removeFavoriteBook } from 'api/userApi'; // Add these methods to userApi
+import { addFavoriteBook, removeFavoriteBook } from 'api/userApi';
 import { useRouter } from 'next/navigation';
 
 interface FavoriteBookButtonProps {
   bookId: number;
-  isFavorited: boolean; // Initial favorite status
+  isFavorited: boolean;
 }
 
 const FavoriteBookButton: React.FC<FavoriteBookButtonProps> = ({ bookId, isFavorited }) => {
@@ -37,9 +35,7 @@ const FavoriteBookButton: React.FC<FavoriteBookButtonProps> = ({ bookId, isFavor
     <button
       onClick={toggleFavorite}
       disabled={loading}
-      className={`mt-4 px-4 py-2 rounded-md ${
-        favorited ? "bg-red-600 text-white" : "bg-blue-600 text-white"
-      } hover:bg-opacity-90`}
+      className={`mt-4 px-4 py-2 rounded-md ${favorited ? "bg-red-600 text-white" : "bg-blue-600 text-white"} hover:bg-opacity-90`}
     >
       {loading ? "Updating..." : favorited ? "Unfavorite" : "Favorite"}
     </button>
