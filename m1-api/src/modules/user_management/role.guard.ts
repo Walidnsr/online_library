@@ -1,6 +1,14 @@
 // src/modules/user_management/role.guard.ts
 
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, ForbiddenException, Inject, forwardRef } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+  ForbiddenException,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { UserManagementService } from './user_management.service';
@@ -33,10 +41,13 @@ export class RoleGuard implements CanActivate {
       return true; // No specific role required
     }
 
-    if (user.role !== requiredRole) {
-      throw new ForbiddenException('You do not have the required permissions');
+    if (requiredRole === UserRole.AUTHOR || requiredRole === UserRole.ADMIN) {
+      // Allow if user is either an AUTHOR or ADMIN
+      if (user.role === UserRole.AUTHOR || user.role === UserRole.ADMIN) {
+        return true;
+      }
     }
 
-    return true;
+    throw new ForbiddenException('You do not have the required permissions');
   }
 }

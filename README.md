@@ -2,6 +2,27 @@
 
 ## Description
 
+### DEMO: [Google Drive Clone]()
+
+<table width="100%"> 
+<tr>
+<td width="50%">      
+&nbsp; 
+<br>
+<p align="center">
+  ADMIN
+</p>
+<kbd><img src="./images/admin.png" /></kbd>
+</td> 
+<td width="50%">
+<br>
+<p align="center">
+  CLIENT
+</p>
+<img src="./images/drive.png">  
+</td>
+</table>
+
 An online library management system built using **NestJS** for the backend and  **React** for the frontend. It allows users to manage books, authors, user accounts, and book reviews.
 
 This project is divided into two main parts:
@@ -105,74 +126,6 @@ This project is divided into two main parts:
    ```
 
    The frontend server will run by default on **[http://localhost:3000](http://localhost:3000)**.
-
-## Project Structure
-
-### Backend Project Structure
-
-The backend follows a modular approach, with each module focused on a specific domain such as books, authors, or user management.
-
-```bash
-m1-api
-├── nest-cli.json
-├── package.json
-├── package-lock.json
-├── README.md
-├── src
-│   ├── app.module.ts
-│   ├── main.ts
-│   └── modules
-│       ├── author_management
-│       ├── book_management
-│       ├── review_management
-│       └── user_management
-│           ├── entities
-│           │   └── user.entity.ts
-│           ├── strategies
-│           │   └── local.strategy.ts
-│           ├── user_management.controller.ts
-│           ├── user_management.module.ts
-│           └── user_management.service.ts
-└── tsconfig.json
-```
-
-### Frontend Project Structure
-
-The frontend is structured to create reusable components, layouts, and pages to provide a modular and scalable approach.
-
-```bash
-m1-site/
-├── next.config.js
-├── package.json
-├── public
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── logo192.png
-│   ├── logo512.png
-│   ├── manifest.json
-│   └── robots.txt
-├── src
-│   ├── api
-│   │   └── userApi.ts
-│   ├── components
-│   │   ├── Modal.tsx
-│   │   └── Navbar.tsx
-│   ├── modules
-│   │   └── user_management
-│   │       └── components
-│   │           ├── LoginForm.tsx
-│   │           ├── ProfileForm.tsx
-│   │           └── SignupForm.tsx
-│   ├── pages
-│   │   └── user
-│   ├── styles
-│   │   └── globals.css
-│   └── app
-│       ├── App.css
-│       ├── layout.tsx
-│       └── page.tsx
-└── tailwind.config.js
-```
 
 ## Backend Modules Overview
 

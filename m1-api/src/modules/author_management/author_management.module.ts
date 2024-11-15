@@ -10,7 +10,7 @@ import { UserManagementModule } from '../user_management/user_management.module'
 @Module({
   imports: [
     TypeOrmModule.forFeature([AuthorProfile]),
-    forwardRef(() => UserManagementModule), // Use forwardRef to solve the circular dependency
+    forwardRef(() => UserManagementModule), // Handle circular dependency
   ],
   controllers: [AuthorManagementController],
   providers: [AuthorManagementService],
