@@ -17,10 +17,12 @@ const AuthorDetailPage = () => {
       const fetchAuthor = async () => {
         setLoading(true);
         try {
+          // Make sure to use the correct `userId` here for fetching the author profile
           const data = await getAuthorProfile(Number(authorId));
           setAuthor(data);
         } catch (err: unknown) {
           const error = err as any;
+          console.error('Error fetching author details:', error);
           setError('Could not fetch author details');
         } finally {
           setLoading(false);
@@ -53,6 +55,11 @@ const AuthorDetailPage = () => {
           className="mt-4 rounded-lg"
         />
       )}
+      <div className="mt-4">
+        <p><strong>Email:</strong> {author.user.email}</p>
+        <p><strong>Number of Books:</strong> {author.numberOfBooks}</p>
+        <p><strong>Average Book Rating:</strong> {author.averageBookRating ?? 'No ratings yet'}</p>
+      </div>
     </div>
   );
 };

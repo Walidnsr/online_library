@@ -1,32 +1,19 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import AdminLayout from '../../layouts/AdminLayout';
-import { getBooks, deleteBook } from 'api/bookApi';
-import { FaTrashAlt } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { getAllBooks, deleteBook } from '../../api/adminApi';
 
-interface Book {
-  id: number;
-  title: string;
-  author?: {
-    firstName: string;
-    lastName: string;
-  };
-}
-
-const AdminBooksPage = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const userRole = "admin"; // This should ideally be fetched from user state/context
+const AdminBooks: React.FC = () => {
+  const [books, setBooks] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const booksData = await getBooks({});
-        setBooks(booksData);
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch books');
+        const response = await getAllBooks();
+        setBooks(response);
+      } catch (error) {
+        console.error("Failed to fetch books:", error);
       } finally {
         setLoading(false);
       }
@@ -35,67 +22,44 @@ const AdminBooksPage = () => {
   }, []);
 
   const handleDeleteBook = async (bookId: number) => {
-    if (!window.confirm('Are you sure you want to delete this book?')) return;
-    try {
-      await deleteBook(bookId);
-      alert('Book deleted successfully');
-      setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
-    } catch (err: any) {
-      alert(err.message || 'Failed to delete book');
-    }
+    await deleteBook(bookId);
+    setBooks(books.filter(book => book.id !== bookId));
   };
 
   return (
-    <AdminLayout role={userRole}>
-      <h1 className="text-3xl font-bold mb-6">Manage Books</h1>
-      {loading && <p>Loading books...</p>}
-      {error && <p className="text-red-600">{error}</p>}
-      {!loading && !error && (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse bg-white shadow-md">
-            <thead>
-              <tr>
-                <th className="border-b p-4 text-left">ID</th>
-                <th className="border-b p-4 text-left">Title</th>
-                <th className="border-b p-4 text-left">Author</th>
-                <th className="border-b p-4 text-left">Actions</th>
+    <>
+      <h1 className="text-2xl font-bold mb-6">Manage Books</h1>
+      {loading ? (
+        <p>Loading books...</p>
+      ) : (
+        <table className="w-full text-left bg-white shadow-lg rounded-lg">
+          <thead>
+            <tr>
+              <th className="border p-4">Title</th>
+              <th className="border p-4">Author</th>
+              <th className="border p-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {books.map(book => (
+              <tr key={book.id}>
+                <td className="border p-4">{book.title}</td>
+                <td className="border p-4">{book.author}</td>
+                <td className="border p-4">
+                  <button
+                    className="bg-red-600 text-white px-4 py-1 rounded"
+                    onClick={() => handleDeleteBook(book.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {books.length > 0 ? (
-                books.map((book) => (
-                  <tr key={book.id}>
-                    <td className="border-b p-4">{book.id}</td>
-                    <td className="border-b p-4">{book.title}</td>
-                    <td className="border-b p-4">
-                      {book.author
-                        ? `${book.author.firstName} ${book.author.lastName}`
-                        : 'Unknown Author'}
-                    </td>
-                    <td className="border-b p-4">
-                      <button
-                        onClick={() => handleDeleteBook(book.id)}
-                        className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 flex items-center space-x-2"
-                      >
-                        <FaTrashAlt />
-                        <span>Delete</span>
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={4} className="p-4 text-center">
-                    No books found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       )}
-    </AdminLayout>
+    </>
   );
 };
 
-export default AdminBooksPage;
+export default AdminBooks;
