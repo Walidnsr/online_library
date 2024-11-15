@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { getBooks, getBookById } from '../api/bookApi';
+import Link from 'next/link';
+import { getBooks } from '../api/bookApi';
 import BookDetail from '../modules/books/components/BookDetail';
 
 const HomePage = () => {
@@ -10,8 +11,6 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedBookID, setSelectedBookID] = useState<string | null>(null);
-  const [selectedBook, setSelectedBook] = useState<any | null>(null);
-  const [loadingBook, setLoadingBook] = useState(false);
 
   useEffect(() => {
     const fetchTrendingBooks = async () => {
@@ -28,23 +27,8 @@ const HomePage = () => {
     fetchTrendingBooks();
   }, []);
 
-  const handleViewDetails = async (bookID: string) => {
-    setLoadingBook(true);
+  const handleViewDetails = (bookID: string) => {
     setSelectedBookID(bookID);
-
-    try {
-      const bookData = await getBookById(Number(bookID));
-      setSelectedBook(bookData);
-    } catch (err) {
-      setError('Could not fetch book details');
-    } finally {
-      setLoadingBook(false);
-    }
-  };
-
-  const handleCloseDetails = () => {
-    setSelectedBookID(null);
-    setSelectedBook(null);
   };
 
   return (
@@ -55,6 +39,23 @@ const HomePage = () => {
         <p className="text-lg text-gray-700 mt-4">
           Millions of books available through Controlled Digital Lending
         </p>
+        <div className="mt-6 space-x-4">
+          <Link href="/books">
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700">
+              Browse Books
+            </button>
+          </Link>
+          <Link href="/authors">
+            <button className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700">
+              Browse Authors
+            </button>
+          </Link>
+          <Link href="/reviews">
+            <button className="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700">
+              View Reviews
+            </button>
+          </Link>
+        </div>
       </header>
 
       <section className="container mx-auto px-6 py-10">
@@ -92,21 +93,7 @@ const HomePage = () => {
       {/* Render BookDetail inline when a book is selected */}
       {selectedBookID && (
         <section className="container mx-auto px-6 py-10">
-          {loadingBook ? (
-            <p>Loading book details...</p>
-          ) : selectedBook ? (
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <button
-                onClick={handleCloseDetails}
-                className="text-red-500 font-bold mb-4"
-              >
-                Close Details
-              </button>
-              <BookDetail bookID={selectedBookID} />
-            </div>
-          ) : (
-            <p>No book details available</p>
-          )}
+          <BookDetail bookID={selectedBookID} />
         </section>
       )}
     </div>
